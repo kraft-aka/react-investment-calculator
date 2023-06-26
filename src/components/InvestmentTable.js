@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function InvestmentTable() {
+export default function InvestmentTable(props) {
   return (
     <table className="result">
         <thead>

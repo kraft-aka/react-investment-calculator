@@ -32,9 +32,22 @@ export default function (props) {
       yearlyContribution: enteredYearlyContributions,
       expectedReturn: enteredExpectedInterest,
       duration: enteredInvestmentDuration,
+      id: Math.random().toString()
     };
+
+    // checks if all fields are filled out
+    if (
+      !enteredCurrentSavings ||
+      !enteredYearlyContributions ||
+      !enteredExpectedInterest ||
+      !enteredInvestmentDuration
+    )
+      return;
+    props.onCalculate(investmentData);
     console.log(investmentData);
   }
+
+  
 
   return (
     <form className="form" onSubmit={submitHandler}>
