@@ -24,14 +24,29 @@ export default function (props) {
     setEnteredInvestmentDuration(e.target.value);
   }
 
+  function calculateData(data) {
+    for (let i = 0; i < data.duration; i++) {
+      const yearlyInterest = data.currentSavings * data.expectedReturn;
+      data.currentSavings += data.yearlyInterest + data.yearlyContribution;
+      console.log(yearlyInterest)
+      props.yearlyData.push({
+        //feel free to change the shape of the data pushed to the array!
+        year: i + 1,
+        yearlyInterest: yearlyInterest,
+        savingsEndOfYear: data.currentSavings,
+        yearlyContribution: data.yearlyContribution,
+      });
+    }
+  }
+
   function submitHandler(e) {
     e.preventDefault();
 
     const investmentData = {
-      currentSavings: enteredCurrentSavings,
-      yearlyContribution: enteredYearlyContributions,
-      expectedReturn: enteredExpectedInterest,
-      duration: enteredInvestmentDuration,
+      currentSavings: +enteredCurrentSavings,
+      yearlyContribution: +enteredYearlyContributions,
+      expectedReturn: +enteredExpectedInterest,
+      duration: +enteredInvestmentDuration,
       id: Math.random().toString()
     };
 
@@ -43,9 +58,21 @@ export default function (props) {
       !enteredInvestmentDuration
     )
       return;
-    props.onCalculate(investmentData);
-    console.log(investmentData);
+    const calculated = calculateData(investmentData)
+    props.onCalculate(calculated);
+    console.log(calculated);
   }
+
+  function resetHandler(e) {
+    setEnteredCurrentSavings('')
+    setEnteredExpectedInterest('')
+    setEnteredInvestmentDuration('')
+    setEnteredYearlyContributions('')
+    console.log('reset')
+  }
+
+
+  
 
   
 
@@ -94,7 +121,7 @@ export default function (props) {
         </p>
       </div>
       <p className="actions">
-        <button type="reset" className="buttonAlt">
+        <button type="reset" className="buttonAlt" onClick={resetHandler}>
           Reset
         </button>
         <button type="submit" className="button">
