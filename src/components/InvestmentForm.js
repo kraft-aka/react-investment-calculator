@@ -2,11 +2,9 @@ import React, { useState } from "react";
 
 export default function (props) {
   const [currentSavings, setCurrentSavings] = useState("");
-  const [yearlyContribution, setYearlyContribution] =
-    useState("");
+  const [yearlyContribution, setYearlyContribution] = useState("");
   const [expectedReturn, setExpectedReturn] = useState("");
-  const [duration, setDuration] =
-    useState("");
+  const [duration, setDuration] = useState("");
 
   function currentSavingsHandler(e) {
     setCurrentSavings(e.target.value);
@@ -24,21 +22,6 @@ export default function (props) {
     setDuration(e.target.value);
   }
 
-  function calculateData(data) {
-    for (let i = 0; i < data.duration; i++) {
-      const yearlyInterest = data.currentSavings * data.expectedReturn;
-      data.currentSavings += data.yearlyInterest + data.yearlyContribution;
-      console.log(yearlyInterest)
-      props.yearlyData.push({
-        //feel free to change the shape of the data pushed to the array!
-        year: i + 1,
-        yearlyInterest: yearlyInterest,
-        savingsEndOfYear: data.currentSavings,
-        yearlyContribution: data.yearlyContribution,
-      });
-    }
-  }
-
   function submitHandler(e) {
     e.preventDefault();
 
@@ -47,34 +30,21 @@ export default function (props) {
       yearlyContribution: +yearlyContribution,
       expectedReturn: +expectedReturn,
       duration: +duration,
-      id: Math.random().toString()
+      id: Math.random().toString(),
     };
 
     // checks if all fields are filled out
-    if (
-      !currentSavings ||
-      !yearlyContribution ||
-      !expectedReturn ||
-      !duration
-    )
+    if (!currentSavings || !yearlyContribution || !expectedReturn || !duration)
       return;
-    const calculated = calculateData(investmentData)
-    props.onCalculate(calculated);
-    console.log(calculated);
   }
 
   function resetHandler(e) {
-    setCurrentSavings('')
-    setExpectedReturn('')
-    setDuration('')
-    setYearlyContribution('')
-    console.log('reset')
+    setCurrentSavings("");
+    setExpectedReturn("");
+    setDuration("");
+    setYearlyContribution("");
+    console.log("reset");
   }
-
-
-  
-
-  
 
   return (
     <form className="form" onSubmit={submitHandler}>
