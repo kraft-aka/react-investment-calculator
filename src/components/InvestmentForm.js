@@ -1,27 +1,27 @@
 import React, { useState } from "react";
 
 export default function (props) {
-  const [enteredCurrentSavings, setEnteredCurrentSavings] = useState("");
-  const [enteredYearlyContributions, setEnteredYearlyContributions] =
+  const [currentSavings, setCurrentSavings] = useState("");
+  const [yearlyContribution, setYearlyContribution] =
     useState("");
-  const [enteredExpectedInterest, setEnteredExpectedInterest] = useState("");
-  const [enteredInvestmentDuration, setEnteredInvestmentDuration] =
+  const [expectedReturn, setExpectedReturn] = useState("");
+  const [duration, setDuration] =
     useState("");
 
   function currentSavingsHandler(e) {
-    setEnteredCurrentSavings(e.target.value);
+    setCurrentSavings(e.target.value);
   }
 
   function yearlySavingsHandler(e) {
-    setEnteredYearlyContributions(e.target.value);
+    setYearlyContribution(e.target.value);
   }
 
   function expectedInterestsHandler(e) {
-    setEnteredExpectedInterest(e.target.value);
+    setExpectedReturn(e.target.value);
   }
 
   function investmentDurationHanlder(e) {
-    setEnteredInvestmentDuration(e.target.value);
+    setDuration(e.target.value);
   }
 
   function calculateData(data) {
@@ -43,19 +43,19 @@ export default function (props) {
     e.preventDefault();
 
     const investmentData = {
-      currentSavings: +enteredCurrentSavings,
-      yearlyContribution: +enteredYearlyContributions,
-      expectedReturn: +enteredExpectedInterest,
-      duration: +enteredInvestmentDuration,
+      currentSavings: +currentSavings,
+      yearlyContribution: +yearlyContribution,
+      expectedReturn: +expectedReturn,
+      duration: +duration,
       id: Math.random().toString()
     };
 
     // checks if all fields are filled out
     if (
-      !enteredCurrentSavings ||
-      !enteredYearlyContributions ||
-      !enteredExpectedInterest ||
-      !enteredInvestmentDuration
+      !currentSavings ||
+      !yearlyContribution ||
+      !expectedReturn ||
+      !duration
     )
       return;
     const calculated = calculateData(investmentData)
@@ -64,10 +64,10 @@ export default function (props) {
   }
 
   function resetHandler(e) {
-    setEnteredCurrentSavings('')
-    setEnteredExpectedInterest('')
-    setEnteredInvestmentDuration('')
-    setEnteredYearlyContributions('')
+    setCurrentSavings('')
+    setExpectedReturn('')
+    setDuration('')
+    setYearlyContribution('')
     console.log('reset')
   }
 
@@ -85,7 +85,7 @@ export default function (props) {
             type="number"
             id="current-savings"
             onChange={currentSavingsHandler}
-            value={enteredCurrentSavings}
+            value={currentSavings}
           />
         </p>
         <p>
@@ -94,7 +94,7 @@ export default function (props) {
             type="number"
             id="yearly-contribution"
             onChange={yearlySavingsHandler}
-            value={enteredYearlyContributions}
+            value={yearlyContribution}
           />
         </p>
       </div>
@@ -106,7 +106,7 @@ export default function (props) {
           <input
             type="number"
             onChange={expectedInterestsHandler}
-            value={enteredExpectedInterest}
+            value={expectedReturn}
             id="expected-return"
           />
         </p>
@@ -115,7 +115,7 @@ export default function (props) {
           <input
             type="number"
             onChange={investmentDurationHanlder}
-            value={enteredInvestmentDuration}
+            value={duration}
             id="duration"
           />
         </p>
