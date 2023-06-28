@@ -5,49 +5,50 @@ import InvestmentTable from "./components/InvestmentTable";
 import InvestmentHeader from "./components/InvestmentHeader";
 
 function App() {
-  const [yearlyData, setYearlyData] = useState([]);
+  const [userInput, setUserInput] = useState(null);
 
   const calculateHandler = (userInput) => {
-    setYearlyData((prevData) => {
-      return [userInput, ...prevData];
-    });
-    // Should be triggered when form is submitted
-    // You might not directly want to bind it to the submit event on the form though...
-
-    //const yearlyData = []; // per-year results
-
-    // let currentSavings = +userInput["current-savings"]; // feel free to change the shape of this input object!
-    // const yearlyContribution = +userInput["yearly-contribution"]; // as mentioned: feel free to change the shape...
-    // const expectedReturn = +userInput["expected-return"] / 100;
-    // const duration = +userInput["duration"];
-
-    // // The below code calculates yearly results (total savings, interest etc)
-    // for (let i = 0; i < duration; i++) {
-    //   const yearlyInterest = currentSavings * expectedReturn;
-    //   currentSavings += yearlyInterest + yearlyContribution;
-    //   yearlyData.push({
-    //     // feel free to change the shape of the data pushed to the array!
-    //     year: i + 1,
-    //     yearlyInterest: yearlyInterest,
-    //     savingsEndOfYear: currentSavings,
-    //     yearlyContribution: yearlyContribution,
-    //   });
-    //}
-
-    // do something with yearlyData ...
-    console.log(yearlyData);
+    setUserInput(userInput);
+    console.log(userInput);
   };
 
+  const yearlyData = []; // per-year results
+
+  if (userInput) {
+    let currentSavings = +userInput["currentSavings"];
+    const yearlyContribution = +userInput["yearlyContribution"];
+    const expectedReturn = +userInput["expectedReturn"] / 100;
+    const duration = +userInput["duration"];
+
+    // The below code calculates yearly results (total savings, interest etc)
+    for (let i = 0; i < duration; i++) {
+      const yearlyInterest = currentSavings * expectedReturn;
+      currentSavings += yearlyInterest + yearlyContribution;
+      yearlyData.push({
+        year: i + 1,
+        yearlyInterest: yearlyInterest,
+        savingsEndOfYear: currentSavings,
+        yearlyContribution: yearlyContribution,
+      });
+    }
+  }
+  console.log(userInput);
+
   const fallbackText = (
-    <p style={{ color: "red", textAlign: "center" }}>'No data is available!'</p>
+    <p style={{ color: "red", textAlign: "center" }}>'No investment calculated!'</p>
   );
 
   return (
     <div>
       <InvestmentHeader logo={logo} />
-      <InvestmentForm onCalculate={calculateHandler} yearlyData={yearlyData} />
-      {yearlyData.length === 0 && fallbackText}
-      {yearlyData.length > 0 && <InvestmentTable data={yearlyData} />}
+      <InvestmentForm onCalculate={calculateHandler} />
+      {!userInput && fallbackText}
+      {userInput && (
+        <InvestmentTable
+          data={yearlyData}
+          initialInvetsment={userInput.currentSavings}
+        />
+      )}
     </div>
   );
 }

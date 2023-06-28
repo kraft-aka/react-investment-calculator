@@ -32,6 +32,7 @@ export default function (props) {
       duration: +duration,
       id: Math.random().toString(),
     };
+    props.onCalculate(investmentData)
 
     // checks if all fields are filled out
     if (!currentSavings || !yearlyContribution || !expectedReturn || !duration)
